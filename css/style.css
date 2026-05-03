@@ -420,6 +420,7 @@ h2 {
     background-color: var(--error-color) !important;
     color: white !important;
     box-shadow: 0 4px 0 #cc0000 !important;
+    pointer-events: none;
 }
 
 .success-drop {

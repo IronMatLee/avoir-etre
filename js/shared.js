@@ -182,6 +182,8 @@ function initDragAndDrop(gameType) {
 }
 
 function onPointerDown(e) {
+    if (draggedElement) return; // Prevent multi-touch bugs
+
     // Only target `.label` items inside a bank, OR ensure they are draggable. 
     // We remove the class `success-drop` on success, so they aren't draggable anymore.
     if (e.target.classList.contains('label') && !e.target.classList.contains('success-drop')) {
