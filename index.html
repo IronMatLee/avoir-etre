@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jeu Avoir et Être - Menu Principal</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- HEADER -->
+        <header>
+            <h1 class="pokemon-title">Les verbes Avoir et Être</h1>
+        </header>
+
+        <!-- MENU PRINCIPAL -->
+        <section id="menu" class="screen active">
+            <h2>Choisis ton entraînement !</h2>
+            <div class="menu-cards">
+                <div class="card" onclick="window.location.href='exercice1.html'">
+                    <div class="card-icon">1</div>
+                    <h3>Le Tableau de Conjugaison</h3>
+                    <p>Range les étiquettes à la bonne place dans le tableau.</p>
+                </div>
+                <div class="card" onclick="window.location.href='exercice2.html'">
+                    <div class="card-icon">2</div>
+                    <h3>Le Texte à Trous</h3>
+                    <p>Complète les phrases avec le bon verbe.</p>
+                </div>
+            </div>
+            
+            <div id="rank-badge" class="rank-badge home-badge"></div>
+            
+            <div class="home-leaderboard-wrapper">
+                <h3>🏆 Classement Mondial</h3>
+                <div class="leaderboard-container" style="height: auto; margin-bottom: 0;">
+                    <div class="leaderboard-list" id="home-leaderboard">
+                        <!-- Loaded via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JS -->
+    <script src="js/shared.js"></script>
+</body>
+</html>

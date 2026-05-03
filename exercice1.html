@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jeu Avoir et Être - Exercice 1</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- HEADER SPECIFIQUE EXERCICE -->
+        <header class="exercise-header">
+            <button onclick="window.location.href='index.html'" id="btn-home">🏠 Retour</button>
+            <h2 class="exercise-title">Complète le tableau !</h2>
+            <div id="rank-badge" class="rank-badge"></div>
+        </header>
+
+        <!-- EXERCICE 1: CONJUGAISON -->
+        <section id="exercise1" class="screen active">
+            <div class="table-container">
+                <div class="column" id="col-avoir">
+                    <h3 class="col-title avoir">AVOIR</h3>
+                    <div class="rows" id="rows-avoir">
+                        <!-- Généré via JS -->
+                    </div>
+                </div>
+                <div class="column" id="col-etre">
+                    <h3 class="col-title etre">ÊTRE</h3>
+                    <div class="rows" id="rows-etre">
+                        <!-- Généré via JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bank-container">
+                <h3>Tes étiquettes :</h3>
+                <div id="bank1" class="bank dropzone">
+                    <!-- Étiquettes générées via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- MODAL DE VICTOIRE -->
+        <div id="victory-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Bravo Baptiste ! 🎉</h2>
+                <p>Voici ton évolution dans le classement :</p>
+                <div class="leaderboard-container">
+                    <div class="leaderboard-list" id="leaderboard-list"></div>
+                    <div class="leaderboard-item is-baptiste" style="position: absolute; top: 50%; left: 10px; right: 10px; transform: translateY(-50%); box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 5;" id="baptiste-fixed">
+                        <span class="item-rank" id="bap-rank-number">#100</span>
+                        <span class="item-name">Baptiste</span>
+                        <span class="item-league" id="bap-league-badge">Ligue</span>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button onclick="window.location.href='index.html'" class="btn-primary">Retour au Menu</button>
+                    <button onclick="window.location.reload()" class="btn-secondary">Rejouer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="js/shared.js"></script>
+    <script src="js/exercice1.js"></script>
+</body>
+</html>

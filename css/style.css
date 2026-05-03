@@ -1,0 +1,579 @@
+:root {
+    --poke-red: #CC0000;
+    --poke-yellow: #FFDE00;
+    --poke-blue: #3B4CCA;
+    --bg-color: #E6F0FA;
+    --text-color: #333333;
+    --white: #FFFFFF;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --border-radius: 16px;
+    --error-color: #FF4A4A;
+    --success-color: #4CAF50;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none; /* Prevent text selection while dragging */
+    -webkit-user-select: none;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-color);
+    background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, rgba(230, 240, 250, 0.8) 100%);
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden; /* Allow vertical scroll if needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app {
+    width: 100%;
+    max-width: 1024px;
+    min-height: 100vh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: relative;
+}
+
+/* HEADER */
+header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    min-height: 60px;
+}
+
+.pokemon-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--poke-yellow);
+    text-shadow: 2px 2px 0 var(--poke-blue), -2px -2px 0 var(--poke-blue), 2px -2px 0 var(--poke-blue), -2px 2px 0 var(--poke-blue), 4px 4px 0px rgba(0,0,0,0.2);
+    letter-spacing: 2px;
+}
+
+button {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#btn-home {
+    position: absolute;
+    left: 0;
+    background-color: var(--white);
+    color: var(--poke-blue);
+    border: 2px solid var(--poke-blue);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* SCREENS */
+.screen {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease;
+}
+
+.screen.active {
+    display: flex;
+}
+
+#menu {
+    justify-content: center;
+}
+
+h2 {
+    font-size: 2rem;
+    color: var(--poke-blue);
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+/* MENU CARDS */
+.menu-cards {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.card {
+    background: var(--white);
+    width: 300px;
+    height: 350px;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 4px solid var(--poke-blue);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Pokéball header effect for cards */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background-color: var(--poke-red);
+    z-index: 0;
+}
+.card::after {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: #222;
+    z-index: 0;
+}
+
+.card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--white);
+    border: 8px solid #222;
+    border-radius: 50%;
+    margin: 30px auto 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--poke-blue);
+}
+
+.card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--poke-blue);
+}
+
+.card p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* EXERCICE 1 - TABLEAU */
+.table-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex: 1;
+    min-height: 0;
+}
+
+.column {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid var(--poke-blue);
+}
+
+.col-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+}
+
+.col-title.avoir { background-color: var(--poke-blue); }
+.col-title.etre { background-color: var(--poke-red); }
+
+.rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.pronoun {
+    width: 80px;
+    text-align: right;
+    color: #444;
+}
+
+.dropzone {
+    flex: 1;
+    min-height: 45px;
+    background-color: #f0f5fa;
+    border: 3px dashed #b0c4de;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.dropzone.active-hover {
+    background-color: #d0e4ff;
+    border-color: var(--poke-blue);
+}
+
+/* LABELS & DRAGGING */
+.label {
+    background-color: var(--poke-yellow);
+    color: #222;
+    padding: 6px 15px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    border-radius: 8px;
+    box-shadow: 0 4px 0 #d4b800, 0 5px 5px rgba(0,0,0,0.2);
+    cursor: grab;
+    touch-action: none; /* Crucial for pointer events */
+    border: 2px solid #222;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.1s;
+}
+
+.label:active {
+    cursor: grabbing;
+}
+
+.label.dragging {
+    position: fixed; /* ou absolute selon la logique JS */
+    z-index: 1000;
+    pointer-events: none; /* Let pointer events pass through to dropzone */
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.bank-container {
+    margin-top: 15px;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    box-shadow: var(--shadow);
+    border: 3px solid #222;
+}
+
+.bank-container h3 {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    min-height: 80px;
+    border: none;
+    background: transparent;
+}
+
+/* EXERCICE 2 - PHRASES */
+.score-board {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--poke-blue);
+    background: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    align-self: center;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--poke-yellow);
+}
+
+.sentence-container {
+    background: white;
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    font-size: 2rem;
+    line-height: 1.8;
+    text-align: center;
+    border: 4px solid var(--poke-blue);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inline-dropzone {
+    display: inline-flex;
+    width: 120px;
+    height: 60px;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-10px); }
+    40%, 80% { transform: translateX(10px); }
+}
+
+.error-shake {
+    animation: shake 0.4s ease-in-out;
+    background-color: var(--error-color) !important;
+    color: white !important;
+    box-shadow: 0 4px 0 #cc0000 !important;
+}
+
+.success-drop {
+    background-color: var(--success-color) !important;
+    color: white !important;
+    box-shadow: 0 4px 0 #388e3c !important;
+    pointer-events: none; /* can't drag it anymore */
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 5px solid var(--poke-yellow);
+    max-width: 500px;
+    animation: fadeIn 0.3s;
+}
+
+.modal-content h2 {
+    font-size: 2.5rem;
+    color: var(--poke-blue);
+}
+
+.modal-content p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn-primary {
+    background-color: var(--poke-blue);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--poke-yellow);
+    color: #222;
+}
+
+/* RANK BADGE */
+.rank-badge {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    z-index: 10;
+}
+
+.home-badge {
+    position: static;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.league-name {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 900;
+    font-size: 1rem;
+    box-shadow: var(--shadow);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.rank-number {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--poke-blue);
+    background: white;
+    padding: 3px 10px;
+    border-radius: 10px;
+    border: 2px solid var(--poke-yellow);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reset-btn {
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+}
+
+.reset-btn:hover {
+    transform: rotate(45deg);
+}
+
+/* EXERCISE HEADER */
+.exercise-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    min-height: 60px;
+}
+
+.exercise-title {
+    font-size: 2rem;
+    color: var(--poke-blue);
+    margin: 0;
+}
+
+/* LEADERBOARD ANIMATION */
+.home-leaderboard-wrapper {
+    width: 100%;
+    max-width: 450px;
+    margin: 20px auto 0;
+}
+
+.home-leaderboard-wrapper h3 {
+    text-align: center;
+    color: white;
+    background-color: var(--poke-red);
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 3px solid #222;
+    box-shadow: 0 4px 0 #8b0000;
+}
+
+.leaderboard-container {
+    background: #f0f5fa;
+    border: 3px solid var(--poke-blue);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    height: 180px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.leaderboard-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid #ddd;
+}
+
+.item-rank { color: var(--poke-blue); }
+.item-name { text-align: left; }
+.item-league {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.leaderboard-item.is-baptiste {
+    background: var(--poke-yellow);
+    border-color: var(--poke-blue);
+    color: var(--poke-blue);
+    box-shadow: 0 4px 0 #d4b800;
+}
+
+/* RESPONSIVE TABLET / MOBILE */
+@media (max-width: 768px) {
+    .pokemon-title { font-size: 1.8rem; }
+    h2 { font-size: 1.5rem; }
+    .col-title { font-size: 1.4rem; }
+    .row { font-size: 1.2rem; }
+    .label { font-size: 1.2rem; padding: 8px 15px; }
+    .sentence-container { font-size: 1.5rem; padding: 20px; }
+    .inline-dropzone { width: 100px; height: 50px; }
+}
