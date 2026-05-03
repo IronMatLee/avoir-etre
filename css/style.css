@@ -34,7 +34,7 @@ body {
 
 #app {
     width: 100%;
-    max-width: 1024px;
+    max-width: 1000px;
     min-height: 100vh;
     height: auto;
     display: flex;
@@ -53,6 +53,22 @@ header {
     min-height: 60px;
 }
 
+.home-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+.header-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
 .pokemon-title {
     text-align: center;
     font-size: 2.5rem;
@@ -60,6 +76,16 @@ header {
     color: var(--poke-yellow);
     text-shadow: 2px 2px 0 var(--poke-blue), -2px -2px 0 var(--poke-blue), 2px -2px 0 var(--poke-blue), -2px 2px 0 var(--poke-blue), 4px 4px 0px rgba(0,0,0,0.2);
     letter-spacing: 2px;
+}
+
+.header-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--poke-blue);
+    background-color: var(--poke-yellow);
+    box-shadow: var(--shadow);
 }
 
 button {
@@ -126,7 +152,8 @@ h2 {
 
 .card {
     background: var(--white);
-    width: 300px;
+    flex: 1;
+    min-width: 280px;
     height: 350px;
     border-radius: var(--border-radius);
     padding: 30px;
@@ -204,6 +231,22 @@ h2 {
     justify-content: center;
     flex: 1;
     min-height: 0;
+}
+
+.exercise1-layout {
+    flex-direction: row !important;
+    align-items: stretch;
+    gap: 30px;
+}
+
+.exercise1-layout .table-container {
+    flex: 2;
+}
+
+.exercise1-layout .side-bank {
+    flex: 1;
+    margin-top: 0;
+    height: 100%;
 }
 
 .column {
@@ -338,14 +381,15 @@ h2 {
 
 .sentence-container {
     background: white;
-    padding: 40px;
+    padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     font-size: 2rem;
     line-height: 1.8;
     text-align: center;
     border: 4px solid var(--poke-blue);
-    flex: 1;
+    height: 150px;
+    flex: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -501,16 +545,42 @@ h2 {
 }
 
 /* LEADERBOARD ANIMATION */
-/* LEADERBOARD CARD (HOME) */
+/* LEADERBOARD SECTION (HOME) */
+.home-leaderboard-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 30px auto 0;
+}
+
 .leaderboard-card {
     background: var(--white);
     width: 100%;
-    max-width: 450px;
-    margin: 20px auto 0;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     border: 3px solid var(--poke-blue);
     overflow: hidden;
+}
+
+.leaderboard-card-content {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    align-items: stretch;
+}
+
+.leaderboard-card-content > .leaderboard-illustration,
+.leaderboard-card-content > .leaderboard-container {
+    flex: 1;
+    width: 50%;
+}
+
+.leaderboard-illustration {
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    border: 3px solid var(--poke-blue);
+    box-shadow: var(--shadow);
+    background: white;
 }
 
 .leaderboard-card-header {
@@ -602,6 +672,32 @@ h2 {
 
 /* RESPONSIVE TABLET / MOBILE */
 @media (max-width: 768px) {
+    .exercise1-layout {
+        flex-direction: column !important;
+    }
+    .home-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .header-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    .home-leaderboard-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    .leaderboard-card-content {
+        flex-direction: column;
+    }
+    .leaderboard-card-content > .leaderboard-illustration,
+    .leaderboard-card-content > .leaderboard-container {
+        width: 100%;
+    }
+    .leaderboard-illustration {
+        width: 100%;
+        max-width: 300px;
+    }
     .item-rank { font-size: 1rem; }
     .item-name { font-size: 1rem; }
     .item-league { font-size: 0.7rem; }

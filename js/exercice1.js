@@ -3,19 +3,23 @@ const pronounsEtre = ['Je', 'Tu', 'Il / Elle / On', 'Nous', 'Vous', 'Ils / Elles
 const conjugationsAvoir = ['ai', 'as', 'a', 'avons', 'avez', 'ont'];
 const conjugationsEtre = ['suis', 'es', 'est', 'sommes', 'êtes', 'sont'];
 
+let currentPhase = 0;
+let phaseOrder = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     initGame1();
     initDragAndDrop(1); // from shared.js
 });
 
 function initGame1() {
+    currentPhase = 0;
+    phaseOrder = Math.random() > 0.5 ? ['avoir', 'etre'] : ['etre', 'avoir'];
+    
     const rowsAvoir = document.getElementById('rows-avoir');
     const rowsEtre = document.getElementById('rows-etre');
-    const bank1 = document.getElementById('bank1');
     
     rowsAvoir.innerHTML = '';
     rowsEtre.innerHTML = '';
-    bank1.innerHTML = '';
 
     for (let i = 0; i < conjugationsAvoir.length; i++) {
         const rowAvoir = document.createElement('div');
@@ -35,21 +39,37 @@ function initGame1() {
         rowsEtre.appendChild(rowEtre);
     }
 
-    const container = document.querySelector('#exercise1 .table-container');
+    loadPhase1();
+}
+
+function loadPhase1() {
     const colAvoir = document.getElementById('col-avoir');
     const colEtre = document.getElementById('col-etre');
-    if (Math.random() > 0.5) {
-        container.appendChild(colAvoir);
-        container.appendChild(colEtre);
-    } else {
-        container.appendChild(colEtre);
-        container.appendChild(colAvoir);
+    const bank1 = document.getElementById('bank1');
+    
+    if (currentPhase >= phaseOrder.length) {
+        colAvoir.classList.remove('hidden');
+        colEtre.classList.remove('hidden');
+        setTimeout(() => showVictoryModal(10), 500);
+        return;
     }
 
-    const allLabels = [...conjugationsAvoir, ...conjugationsEtre];
-    shuffleArray(allLabels);
-    
-    allLabels.forEach(text => {
+    const verb = phaseOrder[currentPhase];
+    bank1.innerHTML = '';
+
+    let labels = [];
+    if (verb === 'avoir') {
+        colAvoir.classList.remove('hidden');
+        colEtre.classList.add('hidden');
+        labels = [...conjugationsAvoir];
+    } else {
+        colEtre.classList.remove('hidden');
+        colAvoir.classList.add('hidden');
+        labels = [...conjugationsEtre];
+    }
+
+    shuffleArray(labels);
+    labels.forEach(text => {
         const label = document.createElement('div');
         label.className = 'label';
         label.textContent = text;
@@ -58,14 +78,19 @@ function initGame1() {
     });
 }
 
-function checkGame1Win() {
-    const dropzones = document.querySelectorAll('#exercise1 .dropzone:not(.bank)');
+window.checkGame1Win = function() {
+    const verb = phaseOrder[currentPhase];
+    const col = document.getElementById('col-' + verb);
+    const dropzones = col.querySelectorAll('.dropzone:not(.bank)');
     let allFilled = true;
     dropzones.forEach(dz => {
         if (dz.children.length === 0) allFilled = false;
     });
 
     if (allFilled) {
-        setTimeout(showVictoryModal, 500); // from shared.js
+        setTimeout(() => {
+            currentPhase++;
+            loadPhase1();
+        }, 800); // short delay to show completion before switching
     }
-}
+};
