@@ -57,16 +57,16 @@ function loadPhase1() {
     const verb = phaseOrder[currentPhase];
     bank1.innerHTML = '';
 
-    let labels = [];
     if (verb === 'avoir') {
         colAvoir.classList.remove('hidden');
         colEtre.classList.add('hidden');
-        labels = [...conjugationsAvoir];
     } else {
         colEtre.classList.remove('hidden');
         colAvoir.classList.add('hidden');
-        labels = [...conjugationsEtre];
     }
+
+    // Always mix all 12 labels for difficulty
+    let labels = [...conjugationsAvoir, ...conjugationsEtre];
 
     shuffleArray(labels);
     labels.forEach(text => {

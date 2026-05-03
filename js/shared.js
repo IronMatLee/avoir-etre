@@ -421,22 +421,36 @@ function initFullscreenButton() {
     document.body.appendChild(fsButton);
 
     fsButton.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => {
-                console.log(`Error attempting to enable fullscreen: ${err.message}`);
-            });
+        const docElm = document.documentElement;
+        const requestFS = docElm.requestFullscreen || docElm.webkitRequestFullscreen || docElm.mozRequestFullScreen || docElm.msRequestFullscreen;
+        const exitFS = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+        const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+
+        if (!isFS) {
+            if (requestFS) {
+                let promise = requestFS.call(docElm);
+                if (promise) promise.catch(err => console.log(err));
+            }
         } else {
-            document.exitFullscreen();
+            if (exitFS) {
+                exitFS.call(document);
+            }
         }
     });
 
-    document.addEventListener('fullscreenchange', () => {
-        if (document.fullscreenElement) {
+    const updateIcon = () => {
+        const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+        if (isFS) {
             fsButton.innerHTML = svgExit;
             fsButton.title = 'Quitter le plein écran';
         } else {
             fsButton.innerHTML = svgEnter;
             fsButton.title = 'Plein écran';
         }
-    });
+    };
+
+    document.addEventListener('fullscreenchange', updateIcon);
+    document.addEventListener('webkitfullscreenchange', updateIcon);
+    document.addEventListener('mozfullscreenchange', updateIcon);
+    document.addEventListener('MSFullscreenChange', updateIcon);
 }
