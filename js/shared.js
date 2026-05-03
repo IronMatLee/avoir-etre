@@ -409,18 +409,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initFullscreenButton() {
-    const fsButton = document.createElement('button');
-    fsButton.id = 'btn-fullscreen';
-    fsButton.className = 'btn-fullscreen';
-    
-    const svgEnter = `<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>`;
-    const svgExit = `<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>`;
-    
-    fsButton.innerHTML = svgEnter;
-    fsButton.title = 'Plein écran';
-    document.body.appendChild(fsButton);
+    const avatar = document.querySelector('.header-avatar');
+    if (!avatar) return;
 
-    fsButton.addEventListener('click', () => {
+    avatar.style.cursor = 'pointer';
+
+    avatar.addEventListener('click', () => {
         const docElm = document.documentElement;
         const requestFS = docElm.requestFullscreen || docElm.webkitRequestFullscreen || docElm.mozRequestFullScreen || docElm.msRequestFullscreen;
         const exitFS = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
@@ -437,20 +431,4 @@ function initFullscreenButton() {
             }
         }
     });
-
-    const updateIcon = () => {
-        const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-        if (isFS) {
-            fsButton.innerHTML = svgExit;
-            fsButton.title = 'Quitter le plein écran';
-        } else {
-            fsButton.innerHTML = svgEnter;
-            fsButton.title = 'Plein écran';
-        }
-    };
-
-    document.addEventListener('fullscreenchange', updateIcon);
-    document.addEventListener('webkitfullscreenchange', updateIcon);
-    document.addEventListener('mozfullscreenchange', updateIcon);
-    document.addEventListener('MSFullscreenChange', updateIcon);
 }
