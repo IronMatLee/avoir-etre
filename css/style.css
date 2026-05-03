@@ -113,6 +113,36 @@ button:active {
     border: 2px solid var(--poke-blue);
 }
 
+/* FULLSCREEN BUTTON */
+.btn-fullscreen {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--white);
+    color: var(--poke-blue);
+    border: 3px solid var(--poke-blue);
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.2s, background-color 0.2s;
+    padding: 0;
+}
+
+.btn-fullscreen:hover {
+    background-color: #f0f5fa;
+    transform: scale(1.1);
+}
+
+.btn-fullscreen svg {
+    pointer-events: none;
+}
+
 .hidden {
     display: none !important;
 }

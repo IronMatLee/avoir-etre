@@ -388,7 +388,55 @@ function showVictoryModal() {
     }
 }
 
+const LEAGUES = [
+    { threshold: 0, name: "Dresseur Débutant", bg: "#f0f0f0", color: "#333" },
+    { threshold: 200, name: "Dresseur Prometteur", bg: "#dcd0ff", color: "#4b0082" },
+    { threshold: 400, name: "Champion d'Arène", bg: "#ffe4b5", color: "#8b4500" },
+    { threshold: 600, name: "Maître de la Ligue", bg: "#ffcccb", color: "#8b0000" },
+    { threshold: 800, name: "Grand Maître Pokémon", bg: "linear-gradient(45deg, #FFD700, #FFA500)", color: "#000" }
+];
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Init Fullscreen Button
+    initFullscreenButton();
+
     displayRank();
-    loadHomeLeaderboard();
+    
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        loadHomeLeaderboard();
+        initHome();
+    }
 });
+
+function initFullscreenButton() {
+    const fsButton = document.createElement('button');
+    fsButton.id = 'btn-fullscreen';
+    fsButton.className = 'btn-fullscreen';
+    
+    const svgEnter = `<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>`;
+    const svgExit = `<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>`;
+    
+    fsButton.innerHTML = svgEnter;
+    fsButton.title = 'Plein écran';
+    document.body.appendChild(fsButton);
+
+    fsButton.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.log(`Error attempting to enable fullscreen: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement) {
+            fsButton.innerHTML = svgExit;
+            fsButton.title = 'Quitter le plein écran';
+        } else {
+            fsButton.innerHTML = svgEnter;
+            fsButton.title = 'Plein écran';
+        }
+    });
+}
