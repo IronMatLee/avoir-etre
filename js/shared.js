@@ -53,7 +53,7 @@ function updateRank(pointsGained) {
 }
 
 function getLeagueInfo(rank) {
-    if (rank === 1) return { name: "Grand Maître PokéBat", color: "#FFDE00", bg: "#CC0000" };
+    if (rank === 1) return { name: "Grand Maître Pokémon", color: "#FFDE00", bg: "#CC0000" };
     if (rank <= 100) return { name: "Ligue des Maîtres", color: "#FFFFFF", bg: "#8A2BE2" };
     if (rank <= 400) return { name: "Ligue des Hyper Dresseurs", color: "#FFFFFF", bg: "#3B4CCA" };
     if (rank <= 700) return { name: "Ligue des Bons Dresseurs", color: "#FFFFFF", bg: "#4CAF50" };
@@ -61,21 +61,24 @@ function getLeagueInfo(rank) {
 }
 
 function displayRank() {
-    const badge = document.getElementById('rank-badge');
-    if (!badge) return;
-    
     const rank = getRank();
-    const league = getLeagueInfo(rank);
     
-    badge.innerHTML = `
-        <div class="league-name" style="background: ${league.bg}; color: ${league.color}">
-            ${league.name}
-        </div>
-        <div class="rank-number">
+    // For exercise pages
+    const badge = document.getElementById('rank-badge');
+    if (badge) {
+        badge.innerHTML = `
+            <div class="rank-number">Rang : ${rank}</div>
+        `;
+    }
+    
+    // For home page
+    const homeRankDisplay = document.getElementById('home-rank-display');
+    if (homeRankDisplay) {
+        homeRankDisplay.innerHTML = `
             Rang : ${rank}
             <span class="reset-btn" onclick="resetRank()" title="Réinitialiser">🔄</span>
-        </div>
-    `;
+        `;
+    }
 }
 
 function resetRank() {
@@ -88,30 +91,62 @@ function resetRank() {
     }
 }
 
-function loadHomeLeaderboard() {
-    const container = document.getElementById('home-leaderboard');
+function generateLeaderboardData(targetRank) {
+    let items = [];
+    if (targetRank <= 10) {
+        for (let i = 1; i <= 10; i++) items.push(i);
+    } else {
+        items.push(1, 2, 3, 'break');
+        let start = targetRank - 3;
+        let end = targetRank + 2;
+        
+        if (end > 1000) {
+            start -= (end - 1000);
+            end = 1000;
+        }
+        
+        for (let i = start; i <= end; i++) {
+            items.push(i);
+        }
+    }
+    return items;
+}
+
+function renderLeaderboardHTML(rank, containerId) {
+    const container = document.getElementById(containerId);
     if (!container) return;
     
     container.innerHTML = '';
-    const rank = getRank();
-    const startRank = Math.max(1, rank - 2);
-    const endRank = Math.min(1000, rank + 2);
+    const data = generateLeaderboardData(rank);
     
-    for (let r = startRank; r <= endRank; r++) {
-        const item = document.createElement('div');
-        item.className = 'leaderboard-item';
-        if (r === rank) item.classList.add('is-baptiste');
-        
-        const league = getLeagueInfo(r);
-        const name = (r === rank) ? "Baptiste" : getPlayerName(r);
-        
-        item.innerHTML = `
-            <span class="item-rank">#${r}</span>
-            <span class="item-name">${name}</span>
-            <span class="item-league" style="background:${league.bg}; color:${league.color}">${league.name}</span>
-        `;
-        container.appendChild(item);
-    }
+    data.forEach(item => {
+        if (item === 'break') {
+            const div = document.createElement('div');
+            div.className = 'leaderboard-break';
+            div.textContent = '...';
+            container.appendChild(div);
+        } else {
+            const r = item;
+            const div = document.createElement('div');
+            div.className = 'leaderboard-item';
+            
+            if (r === rank) div.classList.add('is-baptiste');
+            
+            const league = getLeagueInfo(r);
+            const name = (r === rank) ? "Baptiste" : getPlayerName(r);
+            
+            div.innerHTML = `
+                <span class="item-rank">#${r}</span>
+                <span class="item-name">${name}</span>
+                <span class="item-league" style="background:${league.bg}; color:${league.color}">${league.name}</span>
+            `;
+            container.appendChild(div);
+        }
+    });
+}
+
+function loadHomeLeaderboard() {
+    renderLeaderboardHTML(getRank(), 'home-leaderboard');
 }
 
 // ==========================================
@@ -227,6 +262,7 @@ function onPointerUp(e) {
 
                 if (currentGameType === 1 && typeof window.checkGame1Win === 'function') window.checkGame1Win();
                 if (currentGameType === 2 && typeof window.checkGame2SentenceWin === 'function') window.checkGame2SentenceWin();
+                if (currentGameType === 3 && typeof window.checkGame3SentenceWin === 'function') window.checkGame3SentenceWin();
 
             } else {
                 dropzone.appendChild(draggedElement);
@@ -318,63 +354,23 @@ function showVictoryModal() {
 
     // Leaderboard Animation
     const listElement = document.getElementById('leaderboard-list');
-    const bapRankNum = document.getElementById('bap-rank-number');
     
-    if (listElement && bapRankNum) {
+    if (listElement) {
         const oldRank = getRank();
         const newRank = Math.max(1, oldRank - pointsEarnedThisSession);
         
-        const bapLeagueBadge = document.getElementById('bap-league-badge');
-        
-        bapRankNum.textContent = `#${oldRank}`;
-        if (bapLeagueBadge) {
-            const oldLeague = getLeagueInfo(oldRank);
-            bapLeagueBadge.textContent = oldLeague.name;
-            bapLeagueBadge.style.background = oldLeague.bg;
-            bapLeagueBadge.style.color = oldLeague.color;
-        }
-        
-        listElement.innerHTML = '';
-        
-        const endRank = Math.min(1000, oldRank + 3);
-        const startRank = Math.max(1, newRank - 3);
-        
-        for (let r = startRank; r <= endRank; r++) {
-            const item = document.createElement('div');
-            item.className = 'leaderboard-item';
-            const league = getLeagueInfo(r);
-            item.innerHTML = `
-                <span class="item-rank">#${r}</span>
-                <span class="item-name">${getPlayerName(r)}</span>
-                <span class="item-league" style="background:${league.bg}; color:${league.color}">${league.name}</span>
-            `;
-            listElement.appendChild(item);
-        }
-        
-        const itemHeight = 51; // approx height
-        const startOffset = 90 - 25 - ((oldRank - startRank) * itemHeight);
-        listElement.style.transition = 'none';
-        listElement.style.transform = `translateY(${startOffset}px)`;
+        // Initial render
+        renderLeaderboardHTML(oldRank, 'leaderboard-list');
         
         setTimeout(() => {
-            listElement.style.transition = 'transform 2s cubic-bezier(0.25, 1, 0.5, 1)';
-            const finalOffset = 90 - 25 - ((newRank - startRank) * itemHeight);
-            listElement.style.transform = `translateY(${finalOffset}px)`;
-            
             let currentDisplayRank = oldRank;
-            const stepTime = Math.max(50, 2000 / Math.max(1, oldRank - newRank));
+            const stepTime = Math.max(80, 2000 / Math.max(1, oldRank - newRank));
             
             const interval = setInterval(() => {
                 if (currentDisplayRank > newRank) {
                     currentDisplayRank--;
-                    bapRankNum.textContent = `#${currentDisplayRank}`;
-                    const currentLeague = getLeagueInfo(currentDisplayRank);
-                    if (bapLeagueBadge) {
-                        bapLeagueBadge.textContent = currentLeague.name;
-                        bapLeagueBadge.style.background = currentLeague.bg;
-                        bapLeagueBadge.style.color = currentLeague.color;
-                    }
-                    // Optional tiny tick sound
+                    renderLeaderboardHTML(currentDisplayRank, 'leaderboard-list');
+                    if (currentDisplayRank % 2 === 0) playSound('success');
                 } else {
                     clearInterval(interval);
                     localStorage.setItem('pokeRank', newRank);

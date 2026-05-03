@@ -32,19 +32,29 @@
                     <h3>Le Texte à Trous</h3>
                     <p>Complète les phrases avec le bon verbe.</p>
                 </div>
+                <div class="card" onclick="window.location.href='exercice3.html'">
+                    <div class="card-icon">3</div>
+                    <h3>Où est le sujet ?</h3>
+                    <p>Trouve le bon sujet pour la phrase conjuguée.</p>
+                </div>
             </div>
             
-            <div id="rank-badge" class="rank-badge home-badge"></div>
-            
-            <div class="home-leaderboard-wrapper">
-                <h3>🏆 Classement Mondial</h3>
-                <div class="leaderboard-container" style="height: auto; margin-bottom: 0;">
+            <div class="leaderboard-card">
+                <div class="leaderboard-card-header">
+                    <h3>🏆 Classement Mondial</h3>
+                    <div id="home-rank-display" class="home-rank-info">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+                <div class="leaderboard-container" style="height: auto; margin-bottom: 0; border: none; border-radius: 0; box-shadow: none;">
                     <div class="leaderboard-list" id="home-leaderboard">
                         <!-- Loaded via JS -->
                     </div>
                 </div>
             </div>
         </section>
+        
+        <div class="version-number">v1.5</div>
     </div>
 
     <!-- JS -->

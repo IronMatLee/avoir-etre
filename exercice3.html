@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jeu Avoir et Être - Exercice 1</title>
+    <title>Jeu Avoir et Être - Exercice 3</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,30 +18,22 @@
         <!-- HEADER SPECIFIQUE EXERCICE -->
         <header class="exercise-header">
             <button onclick="window.location.href='index.html'" id="btn-home">🏠 Retour</button>
-            <h2 class="exercise-title">Complète le tableau !</h2>
+            <h2 class="exercise-title">Où est le sujet ?</h2>
             <div id="rank-badge" class="rank-badge"></div>
         </header>
 
-        <!-- EXERCICE 1: CONJUGAISON -->
-        <section id="exercise1" class="screen active">
-            <div class="table-container">
-                <div class="column" id="col-avoir">
-                    <h3 class="col-title avoir">AVOIR</h3>
-                    <div class="rows" id="rows-avoir">
-                        <!-- Généré via JS -->
-                    </div>
-                </div>
-                <div class="column" id="col-etre">
-                    <h3 class="col-title etre">ÊTRE</h3>
-                    <div class="rows" id="rows-etre">
-                        <!-- Généré via JS -->
-                    </div>
-                </div>
+        <!-- EXERCICE 3: RETROUVER LE SUJET -->
+        <section id="exercise3" class="screen active">
+            <div class="score-board">Phrase <span id="current-sentence-idx">1</span> / 10</div>
+            <div class="sentence-container">
+                <p id="sentence-text">
+                    <!-- Généré par JS -->
+                </p>
             </div>
             
             <div class="bank-container">
                 <h3>Tes étiquettes :</h3>
-                <div id="bank1" class="bank dropzone">
+                <div id="bank3" class="bank dropzone">
                     <!-- Étiquettes générées via JS -->
                 </div>
             </div>
@@ -65,6 +57,6 @@
 
     <!-- JS -->
     <script src="js/shared.js"></script>
-    <script src="js/exercice1.js"></script>
+    <script src="js/exercice3.js"></script>
 </body>
 </html>
